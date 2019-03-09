@@ -34,7 +34,7 @@ A specialized class for representing and manipulating scores and times in the sp
    * isGreaterThan, isEqualTo, isLessThan -- Methods that alllow two SGS objects to be compared.
    * toString -- returns a pretty-printable string representation of an SGS, e.g., "2:34", "-4:12"or "Even"
    * addTo, addToMany -- sums two SGSs or an array of SGSs
-   * subtractFrom: subtracts one positve SGS from another (negative SGGs are not accepted by this method)
+   * subtractFrom -- subtracts one positve SGS from another (negative SGGs are not accepted by this method)
 
    ***IMPORTANT NOTE***
    The validity/invalidity of an SGS object is set in the constructor. 
