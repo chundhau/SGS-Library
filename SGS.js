@@ -90,8 +90,8 @@
             this.strokeMinutes = Number(parts[0]);
             this.seconds = Number(parts[1]);
             if (arguments[0].charAt(0) == "-") {
-                this.seconds = -1 * this.seconds; //must also be negative.
-                this.underPar = true;
+              this.seconds = -1 * this.seconds; //must also be negative.
+              this.underPar = true;
             } else {
               this.underPar = false;
             }
