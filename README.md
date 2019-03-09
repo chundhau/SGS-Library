@@ -23,19 +23,12 @@ A specialized class for representing and manipulating scores and times in the sp
       be 64 + 70 = 134. Hours just aren't a part of the speedgolf world.
 
    This class provides a set of convenient methods for performing speedgolf and 
-   time duration arithmetic. While JavaScript allows only one constructor, there
-   are actually two ways to set up an SGS:
-   1. Use the constructor to initialize an SGS with a designated number of  
-      strokeMinutes and seconds. Both strokeMinutes and seconds must be integers. While both
-      strokeMinutes and seconds may be negative, the SGS is considered to be negative only
-      if strokeMinutes is negative; the negative-ness of seconds is ingored.
-   2. After constructing an SGS, use setDuration to create an SGS object that acts like a duration.
-      setDuration accepts two dates and stores the duration in terms of (stroke)Minutes and seconds.
-      If you pass in two Dates where the first Date comes after the second, the resulting SGS is 
-      considered invalid. 
+   time duration arithmetic. There are three sets of parameters you can use to instantiate a new SGS object:
+   1. Two integers -- one for strokeMinutes and one for seconds. If etiher is negative, the SGS is assumed to be negative.
+   2. Two Date objects -- one representing the start time and the other representing the end time of the duration. The SGS object is instantiating as the duration between the two timestamps. Note that the second time must temporally follow the first; it is not possible to instantiate a negative duration.
+   3. One string in [-][m][m]m:ss format representing an SGS or duration as a string. The SGS string can have up to three minutes digits tor represent durations up to 999 minutes, or nearly 17 hours. Negative SGS values are accepted in this format; just use the minus sign at the front of the string. 
 
    ***IMPORTANT NOTE***
    The validity/invalidity of an SGS object is set in the constructor. 
    The validity of an SGS object can be tested through the isValid() method. If an invalid SGS
-   object is used in SGS methods, the returned result is always 'undefined'. Hence, you should always 
-   test an SGS for being valid before doing anything else with it.  
+   object is used in SGS methods, or if you try to invoke SGS methods on an invalid SGS object, the returned result is always 'undefined'. Hence, you should always test an SGS for being valid before doing anything else with it.  
