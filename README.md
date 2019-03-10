@@ -22,10 +22,12 @@ A specialized class for representing and manipulating scores and times in the sp
       round in 64 minutes, and if she needed 70 strokes for that round, her SGS would
       be 64 + 70 = 134. Hours just aren't a part of the speedgolf world.
 
-   There are three sets of parameters you can use to instantiate a new SGS object:
+   There are four sets of parameters you can use to instantiate a new SGS object:
    1. Two integers -- one for strokeMinutes and one for seconds. If etiher is negative, the SGS is assumed to be negative.
    2. Two Date objects -- one representing the start time and the other representing the end time of the duration. The SGS object is instantiating as the duration between the two timestamps. Note that the second time must temporally follow the first; it is not possible to instantiate a negative duration.
    3. One string in [-][m][m]m:ss format representing an SGS or duration as a string. The SGS string can have up to three minutes digits tor represent durations up to 999 minutes, or nearly 17 hours. Negative SGS values are accepted in this format; just use the minus sign at the front of the string. 
+   4. One integer representing a SGS in seconds.  The integer can be any integer -- negative, positive, or zero  -- representing the total number of seconds. This is useful if you choose to store SGSs as integers in a databaase and want to conver to SGS objects for the purposes of doing SGS arithmetic. You can convert any SGS
+   back to an integer representation using toInteger().
    
    This class provides a set of convenient methods for performing speedgolf and time duration arithmetic:
    * isUnderPar -- returns true ift he SGS object represents a speedgolf score that is under par, false otherwise
@@ -33,6 +35,7 @@ A specialized class for representing and manipulating scores and times in the sp
    * setSeconds -- returns the seconds portion of the object.
    * isGreaterThan, isEqualTo, isLessThan -- Methods that alllow two SGS objects to be compared.
    * toString -- returns a pretty-printable string representation of an SGS, e.g., "2:34", "-4:12"or "Even"
+   * toInteger -- returns an integer representation of the SGS. This is good for efficiently storing an SGS in    a database, especially if you want to sort SGSs or query for SGSs above or below a certain threshold.
    * addTo, addToMany -- sums two SGSs or an array of SGSs
    * subtractFrom -- subtracts one positve SGS from another (negative SGGs are not accepted by this method)
 
