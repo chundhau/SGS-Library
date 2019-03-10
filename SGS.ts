@@ -43,8 +43,10 @@
    class SGS {
 
     /**************************************************************************
-    CONSTRUCTOR: Initializes a new SGS object. You can do this with three 
+    CONSTRUCTOR: Initializes a new SGS object. You can do this with four 
     alternative sets of args:
+    1. One integer args -- An integer representation of an SGS that represents
+       the (positive or negative) number of seconds in the SGS
     1. Two integer args -- strokeMinutes and seconds. If either is negative, 
        the the SGS object is assumed negative.
     2. Two Date args startTime and finishTime where startTime comes before
@@ -96,6 +98,19 @@
               this.underPar = false;
             }
             return this;
+        }
+        //Constructor 4: An integer representing number of seconds
+        if (arguments.length == 1 && typeof arguments[0] == 'number' &&
+          arguments[0] % 1 === 0) {
+          this.valid = true;
+          this.strokeMinutes = Math.floor(Math.abs(arguments[0]) / 60);
+          this.seconds = Math.abs(arguments[0]) % 60;
+          this.underPar = (arguments[0] < 0);
+          if (this.underPar) {
+            this.strokeMinutes = -1 * this.strokeMinutes;
+            this.seconds = -1 * this.seconds;
+          }
+          return this;
         }
         this.valid = false;
         return this;
@@ -215,6 +230,17 @@
       return "-" + Math.abs(this.strokeMinutes) + ":" + 
                  (absSec < 10 ? "0" + absSec : absSec);
     }
+
+    /**************************************************************************
+    toString: Return an integer representation of SGS. This is good for 
+    representing an SGS for the purpose of sorting
+    **************************************************************************/
+   toInteger() {
+    if (!this.valid) {
+        return; //undefined
+    }
+    return (this.strokeMinutes * 60) + this.seconds;
+  }
     
     /**************************************************************************
      addTo: Add this to SGS provided as a param, returning the sum in a new
@@ -291,7 +317,7 @@
     }
   } //end of SGS class definition
     
-  /* Test Driver -- uncomment if you want to test
+  /* Test Driver -- uncomment if you want to test 
   function testSGS() {
     var sgs = new SGS(3, 4);
     Logger.log("sgs (should be 3:04): " + sgs.toString());
@@ -306,9 +332,17 @@
     sgs = sgs.addTo(new SGS("3:10")); //should be 1:02
     Logger.log("sgs (should be 1:02): " + sgs.toString());
     sgs = sgs.subtractFrom(durSGS);
-    Logger.log('sgs (subtractFrom):' + sgs.toString())
-    var sgsSum = new SGS(0,0);
+    Logger.log('sgs (subtractFrom):' + sgs.toString());
+    var sgsSum = new SGS(0, 0);
     sgsSum = sgsSum.addToMany([new SGS("3:45"), new SGS("-3:45"), new SGS("-4:32")]);
     Logger.log("sgsSum (addToMany -- should be -4:32): " + sgsSum.toString());
+    Logger.log("sgsSum toInteger (should be -272): " + sgsSum.toInteger());
+    intSGS = new SGS(-23);
+    Logger.log("new intSGS (should be -0:23): " + intSGS.toString());
+    Logger.log("new intSGS.toInteger (should be -23): " + intSGS.toInteger());
+    intSGS = new SGS(-85);
+    Logger.log("new intSGS (should be -1:25): " + intSGS.toString());
+    Logger.log("new intSGS.toInteger (should be -85): " + intSGS.toInteger());
+    intSGS = new SGS(272);
+    Logger.log("new intSGS (should be 4:32): " + intSGS.toString());
 } */
-    
